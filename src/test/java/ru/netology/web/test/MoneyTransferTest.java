@@ -30,7 +30,7 @@ public class MoneyTransferTest {
         int initialBalanceFirst = dashBoardPage.getCardBalance(firstCard.getTestId());
         int initialBalanceSecond = dashBoardPage.getCardBalance(secondCard.getTestId());
 
-        int transferAmount = 1000;
+        int transferAmount = initialBalanceFirst / 2;
 
         TransferPage transferPage = dashBoardPage.selectCardToTransfer(secondCard.getTestId());
         dashBoardPage = transferPage.makeTransfer(firstCard.getNumber(), transferAmount);
@@ -41,11 +41,6 @@ public class MoneyTransferTest {
         Assertions.assertEquals(initialBalanceFirst - transferAmount, finalBalanceFirst);
         Assertions.assertEquals(initialBalanceSecond + transferAmount, finalBalanceSecond);
 
-        // Вывод конечных балансов
-        System.out.println("=== КОНЕЧНЫЕ БАЛАНСЫ ===");
-        System.out.println("Баланс первой карты (" + firstCard.getNumber() + "): " + finalBalanceFirst + " руб.");
-        System.out.println("Баланс второй карты (" + secondCard.getNumber() + "): " + finalBalanceSecond + " руб.");
-        System.out.println("=========================");
     }
 
     @Test
@@ -68,7 +63,7 @@ public class MoneyTransferTest {
         TransferPage transferPage = dashBoardPage.selectCardToTransfer(secondCard.getTestId());
         transferPage.makeInvalidTransfer(firstCard.getNumber(), excessiveAmount);
 
-        Assertions.assertTrue(transferPage.isErrorVisible());
+        Assertions.assertTrue(transferPage.isErrorNotificationVisibleWithText());
 
         // Возвращаемся на dashboard и проверяем, что балансы не изменились
         dashBoardPage = transferPage.cancelTransfer();
@@ -79,10 +74,6 @@ public class MoneyTransferTest {
         Assertions.assertEquals(initialBalanceFirst, finalBalanceFirst, "Баланс первой карты не должен измениться");
         Assertions.assertEquals(initialBalanceSecond, finalBalanceSecond, "Баланс второй карты не должен измениться");
 
-        // Вывод конечных балансов
-        System.out.println("Конечный баланс первой карты: " + finalBalanceFirst + " руб.");
-        System.out.println("Конечный баланс второй карты: " + finalBalanceSecond + " руб.");
-        System.out.println("=================================");
     }
 
     @Test
@@ -111,14 +102,6 @@ public class MoneyTransferTest {
         Assertions.assertEquals(0, finalBalanceFirst);
         Assertions.assertEquals(initialBalanceFirst + initialBalanceSecond, finalBalanceSecond);
 
-        // Вывод конечных балансов
-        System.out.println("Конечный баланс первой карты: " + finalBalanceFirst + " руб.");
-        System.out.println("Конечный баланс второй карты: " + finalBalanceSecond + " руб.");
-
-        // Вывод ожидаемых значений
-        System.out.println("Ожидаемый баланс первой карты: 0 руб.");
-        System.out.println("Ожидаемый баланс второй карты: " + (initialBalanceFirst + initialBalanceSecond) + " руб.");
-        System.out.println("=====================================");
     }
 }
 

@@ -22,7 +22,13 @@ public class VerificationPage {
         return new DashBoardPage();
     }
 
-    public void verifyErrorIsVisible() {
-        errorNotification.should(visible);
+    public boolean verifyErrorIsVisibleWithText() {
+        try {
+            errorNotification.shouldBe(Condition.visible);
+            errorNotification.shouldHave(Condition.text("Ошибка!"));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
