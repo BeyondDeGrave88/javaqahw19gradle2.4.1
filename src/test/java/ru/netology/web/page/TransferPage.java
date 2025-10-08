@@ -19,17 +19,17 @@ public class TransferPage {
     private void fillingTransferForm(String fromCardNumber, int amount) {
         amountField.setValue(String.valueOf(amount));
         fromField.setValue(fromCardNumber);
+        transferButton.click();
+
     }
 
     public DashBoardPage makeTransfer(String fromCardNumber, int amount) {
         fillingTransferForm(fromCardNumber, amount);
-        transferButton.click();
         return new DashBoardPage();
     }
 
     public void makeInvalidTransfer(String fromCardNumber, int amount) {
         fillingTransferForm(fromCardNumber, amount);
-        transferButton.click();
         amountField.shouldBe(Condition.visible);
     }
 
@@ -38,13 +38,8 @@ public class TransferPage {
         return new DashBoardPage();
     }
 
-    public boolean isErrorNotificationVisibleWithText() {
-        try {
-            errorNotification.shouldBe(Condition.visible);
-            errorNotification.shouldHave(Condition.text("Ошибка!"));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public void isErrorNotificationVisibleWithText() {
+        errorNotification.shouldBe(Condition.visible);
+        errorNotification.shouldHave(Condition.text("Ошибка!"));
     }
 }

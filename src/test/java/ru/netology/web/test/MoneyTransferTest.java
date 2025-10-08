@@ -1,13 +1,11 @@
 package ru.netology.web.test;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataHelper;
 import ru.netology.web.page.LoginPage;
 import ru.netology.web.page.TransferPage;
-import ru.netology.web.page.DashBoardPage;
 
 
 import static com.codeborne.selenide.Selenide.open;
@@ -63,9 +61,8 @@ public class MoneyTransferTest {
         TransferPage transferPage = dashBoardPage.selectCardToTransfer(secondCard.getTestId());
         transferPage.makeInvalidTransfer(firstCard.getNumber(), excessiveAmount);
 
-        Assertions.assertTrue(transferPage.isErrorNotificationVisibleWithText());
+        transferPage.isErrorNotificationVisibleWithText();
 
-        // Возвращаемся на dashboard и проверяем, что балансы не изменились
         dashBoardPage = transferPage.cancelTransfer();
 
         int finalBalanceFirst = dashBoardPage.getCardBalance(firstCard.getTestId());
